@@ -1,7 +1,8 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <locale.h>
+#include<limits.h>
 
 int main() {
     setlocale(LC_ALL, "rus");
@@ -19,7 +20,7 @@ int main() {
         printf("4. Найти три наименьших положительных элементов одномерного массива целых чисел\n");
         printf("5. Выйти\n");
 
-        if (scanf_s("%d", &menu) != 1) {
+        if (scanf("%d", &menu) != 1) {
             printf("Ошибка! Введите целое число.\n");
             while (getchar() != '\n');
             continue;
@@ -35,7 +36,7 @@ int main() {
             while (1) {
                 printf("Введите размер массива (от 4 до 100): ");
 
-                if (scanf_s("%d", &sizeArr) != 1) {
+                if (scanf("%d", &sizeArr) != 1) {
                     printf("Ошибка! Введите целое число.\n");
                     while (getchar() != '\n');
                     continue;
@@ -79,7 +80,7 @@ int main() {
                 printf("1. Случайными числами\n");
                 printf("2. Вручную с клавиатуры\n");
                 printf("Ваш выбор: ");
-                if (scanf_s("%d", &choice) != 1) {
+                if (scanf("%d", &choice) != 1) {
                     printf("Ошибка! Введите целое число.\n");
                     while (getchar() != '\n');
                     continue;
@@ -99,7 +100,7 @@ int main() {
                     printf("Введите %d элементов массива:\n", sizeArr);
                     for (int i = 0; i < sizeArr; i++) {
                         printf("Элемент %d: ", i + 1);
-                        while (scanf_s("%d", &arr[i]) != 1) {
+                        while (scanf("%d", &arr[i]) != 1) {
                             printf("Ошибка! Введите целое число: ");
                             while (getchar() != '\n');
                         }
@@ -138,39 +139,40 @@ int main() {
 
             int count = 0;
             // Ищем три самых маленьких положительных числа
-            int min1 = INT_MAX, min2 = INT_MAX, min3 = INT_MAX;
-
-            for (int i = 0; i < sizeArr; i++) {
-                if (arr[i] > 0 && arr[i]< INT_MAX) {
-                    count++;
-                }
-            }
-
-/*
-            // Ищем три самых маленьких положительных числа
-            int min1 = 1000, min2 = 1000, min3 = 1000; ///DBL_MAX INT_MAX
-            
+            int min1 = -1, min2 = -1, min3 = -1;//-1 означает не найденый
 
             for (int i = 0; i < sizeArr; i++) {
                 if (arr[i] > 0) {
                     count++;
-
-                    // Обновляем все три значения по порядку
-                    if (arr[i] < min1) {
-                        min3 = min2;
-                        min2 = min1;
+                    if (min1 == -1) {
                         min1 = arr[i];
                     }
-                    else if (arr[i] < min2) {
-                        min3 = min2;
-                        min2 = arr[i];
+                    else if (arr[i] < -1){
+                        if (arr[i] < min1) {
+                            min2 = min1;
+                            min1 = arr[i];
+                        }
+                        else {
+                            min2 = arr[i];
+                        }
                     }
-                    else if (arr[i] < min3) {
-                        min3 = arr[i];
+                    else {
+                        if (arr[i] < min1) {
+                            min3 = min2;
+                            min2 = min1;
+                            min1 = arr[i];
+                        }
+                        else if (arr[i] < min2 && arr[i] != min1) {
+                            min3 = min2;
+                            min2 = arr[i];
+                        }
+                        else if (arr[i] < min3 && arr[i] != min1 && arr[i] != min2) {
+                            min3 = arr[i];
+                        }
                     }
                 }
             }
-*/
+
             // Показываем результаты поиска
             printf("\nРезультаты поиска:\n");
             if (count == 0) {
